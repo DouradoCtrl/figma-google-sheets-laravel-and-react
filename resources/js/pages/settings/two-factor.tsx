@@ -78,7 +78,7 @@ export default function TwoFactor({
                         </div>
                     ) : (
                         <div className="flex flex-col items-start justify-start space-y-4">
-                            <Badge variant="destructive">Disabled</Badge>
+                            <Badge variant="destructive">Desativado</Badge>
                             <p className="text-muted-foreground">
                                 Quando você ativar a autenticação de dois fatores, será solicitado um PIN seguro durante o login.
                                 Este PIN pode ser recuperado de um aplicativo compatível com TOTP no seu telefone.
