@@ -16,4 +16,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('midias', function () {
+        return Inertia::render('midias');
+    })->name('midias');
+});
+
+
+
 require __DIR__.'/settings.php';
