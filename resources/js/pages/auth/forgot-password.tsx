@@ -61,7 +61,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
 
                 <div className="space-x-1 text-center text-sm text-muted-foreground">
                     <span>Ou, retorne para a página de</span>
-                    <TextLink href={login()}>entrada</TextLink>
+                    <TextLink href={login()}>autenticação</TextLink>
                 </div>
             </div>
         </AuthLayout>
