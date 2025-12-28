@@ -25,4 +25,15 @@ class ApiGoogleSheetsService
         $response = $this->service->spreadsheets_values->get($spreadsheetId, $range);
         return $response->getValues();
     }
+
+    // Adiciona uma nova linha à planilha (final)
+    public function appendRow($spreadsheetId, $range, $values)
+    {
+        $body = new Sheets\ValueRange([
+            'values' => [$values]
+        ]);
+        $params = ['valueInputOption' => 'RAW'];
+        
+        return $this->service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
+    }
 }
