@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
+use App\Http\Controllers\ApiGoogleSheetsController;
 
 Route::get('/', function () {
     return Inertia::render('welcome', [
@@ -17,9 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('midias', function () {
-        return Inertia::render('midias');
-    })->name('midias');
+    Route::get('midias', [ApiGoogleSheetsController::class, 'index'])->name('midias');
 });
 
 
