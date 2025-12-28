@@ -53,23 +53,34 @@ export default function Dashboard({ sheetsData }: MediasProps) {
                                         >
                                             {row.map((cell, cellIdx) => {
                                                 // Detecta se é a coluna "Fundo" para exibir imagem
-                                                const isFundo = sheetsData.original[0][cellIdx] === 'Fundo';
-                                                return (
-                                                    <td
-                                                        key={cellIdx}
-                                                        className="px-4 py-2 border-b border-muted dark:border-muted-dark"
-                                                    >
-                                                        {isFundo ? (
-                                                            <img
-                                                                src={cell}
-                                                                alt="Fundo"
-                                                                className="w-16 h-16 object-cover rounded-md border border-muted"
-                                                            />
-                                                        ) : (
-                                                            cell
-                                                        )}
-                                                    </td>
-                                                );
+                                                const header = sheetsData.original[0][cellIdx];
+                                                const isFundo = header === 'Fundo';
+                                                const isCor = header === 'Cor';
+                                                        return (
+                                                            <td
+                                                                key={cellIdx}
+                                                                className="px-4 py-2 border-b border-muted dark:border-muted-dark"
+                                                            >
+                                                                {isFundo ? (
+                                                                    <img
+                                                                        src={cell}
+                                                                        alt="Fundo"
+                                                                        className="w-16 h-16 object-cover rounded-md border border-muted"
+                                                                    />
+                                                                ) : isCor ? (
+                                                                    typeof cell === 'string' ? (
+                                                                        <span
+                                                                            className="inline-block px-2 py-1 rounded text-xs font-semibold border border-muted"
+                                                                            style={{ background: cell.replace(/^\//, ''), color: '#222', minWidth: 60, textAlign: 'center' }}
+                                                                        >
+                                                                            {cell.replace(/^\//, '')}
+                                                                        </span>
+                                                                    ) : cell
+                                                                ) : (
+                                                                    cell
+                                                                )}
+                                                            </td>
+                                                        );
                                             })}
                                             <td className="px-4 py-2 border-b border-muted dark:border-muted-dark text-center align-middle">
                                                 <div className="flex flex-row items-center justify-center gap-2">
