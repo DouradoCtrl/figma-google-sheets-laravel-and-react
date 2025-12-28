@@ -20,10 +20,42 @@ export default function Dashboard({ sheetsData }: MediasProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Mídias" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <pre>{JSON.stringify(sheetsData, null, 2)}</pre>
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
+                {/* Tabela com os dados da planilha */}
+                {Array.isArray(sheetsData?.original) && sheetsData.original.length > 1 && (
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full rounded-xl overflow-hidden border border-sidebar-border/70 bg-background dark:bg-background-dark">
+                            <thead>
+                                <tr>
+                                    {sheetsData.original[0].map((header: string, idx: number) => (
+                                        <th
+                                            key={idx}
+                                            className="px-4 py-2 border-b border-sidebar-border/70 text-left font-bold bg-muted dark:bg-muted-dark first:rounded-tl-xl last:rounded-tr-xl"
+                                        >
+                                            {header}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {sheetsData.original.slice(1).map((row: any[], rowIdx: number) => (
+                                    <tr
+                                        key={rowIdx}
+                                        className="hover:bg-accent dark:hover:bg-accent-dark"
+                                    >
+                                        {row.map((cell, cellIdx) => (
+                                            <td
+                                                key={cellIdx}
+                                                className="px-4 py-2 border-b border-muted dark:border-muted-dark"
+                                            >
+                                                {cell}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         </AppLayout>
     );
