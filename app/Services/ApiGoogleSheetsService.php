@@ -22,20 +22,20 @@ class ApiGoogleSheetsService
     }
 
     // Lê dados de uma planilha
-    public function readSheet($spreadsheetId, $range)
+    public function readSheet($range)
     {
-        $response = $this->service->spreadsheets_values->get($spreadsheetId, $range);
+        $response = $this->service->spreadsheets_values->get($this->spreadsheetId, $range);
         return $response->getValues();
     }
 
     // Adiciona uma nova linha à planilha (final)
-    public function appendRow($spreadsheetId, $range, $values)
+    public function appendRow($range, $values)
     {
         $body = new Sheets\ValueRange([
             'values' => [$values]
         ]);
         $params = ['valueInputOption' => 'RAW'];
         
-        return $this->service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
+        return $this->service->spreadsheets_values->append($this->spreadsheetId, $range, $body, $params);
     }
 }
