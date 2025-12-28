@@ -51,14 +51,26 @@ export default function Dashboard({ sheetsData }: MediasProps) {
                                             key={rowIdx}
                                             className="hover:bg-accent dark:hover:bg-accent-dark"
                                         >
-                                            {row.map((cell, cellIdx) => (
-                                                <td
-                                                    key={cellIdx}
-                                                    className="px-4 py-2 border-b border-muted dark:border-muted-dark"
-                                                >
-                                                    {cell}
-                                                </td>
-                                            ))}
+                                            {row.map((cell, cellIdx) => {
+                                                // Detecta se é a coluna "Fundo" para exibir imagem
+                                                const isFundo = sheetsData.original[0][cellIdx] === 'Fundo';
+                                                return (
+                                                    <td
+                                                        key={cellIdx}
+                                                        className="px-4 py-2 border-b border-muted dark:border-muted-dark"
+                                                    >
+                                                        {isFundo ? (
+                                                            <img
+                                                                src={cell}
+                                                                alt="Fundo"
+                                                                className="w-16 h-16 object-cover rounded-md border border-muted"
+                                                            />
+                                                        ) : (
+                                                            cell
+                                                        )}
+                                                    </td>
+                                                );
+                                            })}
                                             <td className="px-4 py-2 border-b border-muted dark:border-muted-dark text-center align-middle">
                                                 <div className="flex flex-row items-center justify-center gap-2">
                                                     <button
