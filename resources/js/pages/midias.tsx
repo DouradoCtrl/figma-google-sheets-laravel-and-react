@@ -18,9 +18,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 type MediasProps = {
     sheetsData: any;
+    categoreData: any;
 };
 
-export default function Dashboard({ sheetsData }: MediasProps) {
+export default function Dashboard({ sheetsData, categoreData }: MediasProps) {
     // Estado para modal de edição e registro selecionado
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [editRow, setEditRow] = useState<any[] | null>(null);
@@ -68,6 +69,7 @@ export default function Dashboard({ sheetsData }: MediasProps) {
                                 onClose={handleCloseEdit}
                                 row={editRow ? visibleIndexes.map(i => editRow[i]) : null}
                                 headers={headers}
+                                categoreData={categoreData}
                                 onSave={(data) => {
                                     // Aqui você pode implementar a lógica de salvar/atualizar
                                     // Exemplo: console.log('Salvar dados:', data);
@@ -77,6 +79,7 @@ export default function Dashboard({ sheetsData }: MediasProps) {
                                 open={addModalOpen}
                                 onClose={() => setAddModalOpen(false)}
                                 headers={headers}
+                                categoreData={categoreData}
                                 onSave={(data) => {
                                     // Aqui você pode implementar a lógica de adicionar
                                     // Exemplo: console.log('Adicionar dados:', data);
@@ -186,6 +189,13 @@ export default function Dashboard({ sheetsData }: MediasProps) {
                         </>
                     )}
                 </div>
+                {/* Exibe o JSON de categoreData para debug/visualização
+                <div className="mt-8">
+                    <h3 className="font-bold mb-2">categoreData (debug):</h3>
+                    <pre className="bg-zinc-100 dark:bg-zinc-800 rounded p-2 text-xs overflow-x-auto">
+                        {JSON.stringify(categoreData, null, 2)}
+                    </pre>
+                </div> */}
             </AppLayout>
         </>
     );
