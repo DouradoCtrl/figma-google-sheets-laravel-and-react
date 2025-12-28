@@ -18,4 +18,11 @@ class ApiGoogleSheetsService
 
         $this->service = new Sheets($this->client);
     }
+
+    // Lê dados de uma planilha
+    public function readSheet($spreadsheetId, $range)
+    {
+        $response = $this->service->spreadsheets_values->get($spreadsheetId, $range);
+        return $response->getValues();
+    }
 }
