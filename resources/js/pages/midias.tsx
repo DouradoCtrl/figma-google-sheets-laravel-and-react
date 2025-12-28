@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { EditarRegistroModal } from '@/components/editar-registro-modal';
 import { AdicionarRegistroModal } from '@/components/adicionar-registro-modal';
+import { ConfirmarExclusaoModal } from '@/components/confirmar-exclusao-modal';
 import { midias } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -26,6 +27,22 @@ export default function Dashboard({ sheetsData }: MediasProps) {
 
     // Estado para modal de adicionar
     const [addModalOpen, setAddModalOpen] = useState(false);
+
+    // Estado para modal de exclusão
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [deleteRow, setDeleteRow] = useState<any[] | null>(null);
+
+    // Função para abrir modal de exclusão
+    const handleDelete = (row: any[]) => {
+        setDeleteRow(row);
+        setDeleteModalOpen(true);
+    };
+
+    // Função para fechar modal de exclusão
+    const handleCloseDelete = () => {
+        setDeleteModalOpen(false);
+        setDeleteRow(null);
+    };
 
     // Função para abrir modal de edição
     const handleEdit = (row: any[]) => {
@@ -60,7 +77,16 @@ export default function Dashboard({ sheetsData }: MediasProps) {
                     // Exemplo: console.log('Adicionar dados:', data);
                 }}
                         />
-            <AppLayout breadcrumbs={breadcrumbs}>
+                        <ConfirmarExclusaoModal
+                                open={deleteModalOpen}
+                                onClose={handleCloseDelete}
+                                onConfirm={() => {
+                                    // Aqui você pode implementar a lógica de exclusão
+                                    // Exemplo: console.log('Excluir registro:', deleteRow);
+                                }}
+                                itemLabel={deleteRow ? deleteRow[1] : undefined} // Exemplo: usa o campo Título
+                        />
+                        <AppLayout breadcrumbs={breadcrumbs}>
                 <Head title="Mídias" />
                 <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                     {Array.isArray(sheetsData?.original) && sheetsData.original.length > 1 && (
@@ -137,7 +163,7 @@ export default function Dashboard({ sheetsData }: MediasProps) {
                                                         <button
                                                             className="inline-flex items-center justify-center p-1 rounded-full border border-muted bg-muted dark:bg-muted-dark hover:bg-red-100 dark:hover:bg-red-900 transition-colors shadow-sm"
                                                             title="Excluir"
-                                                            onClick={() => alert(`Excluir linha ${rowIdx + 1}`)}
+                                                            onClick={() => handleDelete(row)}
                                                         >
                                                             {/* Ícone de lixeira (excluir) */}
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-red-600 dark:text-red-400">
