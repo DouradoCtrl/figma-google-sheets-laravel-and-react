@@ -56,26 +56,31 @@ export default function Dashboard({ sheetsData }: MediasProps) {
         setEditRow(null);
     };
     
+    // Filtra headers para não exibir CategoriaMenu
+    const headers = (sheetsData?.original?.[0] || []).filter((h: string) => h !== 'CategoriaMenu');
+    // Calcula os índices das colunas visíveis
+    const visibleIndexes = (sheetsData?.original?.[0] || []).map((h: string, i: number) => h !== 'CategoriaMenu' ? i : -1).filter(i => i !== -1);
+
     return (
         <>
-        <EditarRegistroModal
-                open={editModalOpen}
-                onClose={handleCloseEdit}
-                row={editRow}
-                headers={sheetsData?.original?.[0] || []}
-                onSave={(data) => {
-                    // Aqui você pode implementar a lógica de salvar/atualizar
-                    // Exemplo: console.log('Salvar dados:', data);
-                }}
-        />
-        <AdicionarRegistroModal
-                open={addModalOpen}
-                onClose={() => setAddModalOpen(false)}
-                headers={sheetsData?.original?.[0] || []}
-                onSave={(data) => {
-                    // Aqui você pode implementar a lógica de adicionar
-                    // Exemplo: console.log('Adicionar dados:', data);
-                }}
+                        <EditarRegistroModal
+                                open={editModalOpen}
+                                onClose={handleCloseEdit}
+                                row={editRow ? visibleIndexes.map(i => editRow[i]) : null}
+                                headers={headers}
+                                onSave={(data) => {
+                                    // Aqui você pode implementar a lógica de salvar/atualizar
+                                    // Exemplo: console.log('Salvar dados:', data);
+                                }}
+                        />
+                        <AdicionarRegistroModal
+                                open={addModalOpen}
+                                onClose={() => setAddModalOpen(false)}
+                                headers={headers}
+                                onSave={(data) => {
+                                    // Aqui você pode implementar a lógica de adicionar
+                                    // Exemplo: console.log('Adicionar dados:', data);
+                                }}
                         />
                         <ConfirmarExclusaoModal
                                 open={deleteModalOpen}
@@ -100,7 +105,7 @@ export default function Dashboard({ sheetsData }: MediasProps) {
                                 <table className="min-w-full rounded-xl overflow-hidden border border-sidebar-border/70 bg-background dark:bg-background-dark">
                                     <thead>
                                         <tr>
-                                            {sheetsData.original[0].map((header: string, idx: number) => (
+                                            {headers.map((header: string, idx: number) => (
                                                 <th
                                                     key={idx}
                                                     className="px-4 py-2 border-b border-sidebar-border/70 text-left font-bold bg-muted dark:bg-muted-dark first:rounded-tl-xl"
@@ -117,9 +122,10 @@ export default function Dashboard({ sheetsData }: MediasProps) {
                                                 key={rowIdx}
                                                 className="hover:bg-accent dark:hover:bg-accent-dark"
                                             >
-                                                {row.map((cell, cellIdx) => {
+                                                {visibleIndexes.map((cellIdx) => {
                                                     // Detecta se é a coluna "Fundo" para exibir imagem
                                                     const header = sheetsData.original[0][cellIdx];
+                                                    const cell = row[cellIdx];
                                                     const isFundo = header === 'Fundo';
                                                     const isCor = header === 'Cor';
                                                     return (
