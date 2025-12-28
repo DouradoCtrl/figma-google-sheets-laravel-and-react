@@ -50,7 +50,7 @@ export default function DeleteUser() {
                             Uma vez que sua conta seja deletada, todos os seus recursos
                             e dados também serão permanentemente deletados. Por favor,
                             insira sua senha para confirmar que deseja
-                            permanently delete your account.
+                            deletar permanentemente sua conta.
                         </DialogDescription>
 
                         <Form
