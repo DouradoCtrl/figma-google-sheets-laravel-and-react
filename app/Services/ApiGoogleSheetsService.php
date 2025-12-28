@@ -9,6 +9,8 @@ class ApiGoogleSheetsService
     protected $client;
     protected $service;
 
+    protected $spreadsheetId = "13AjWnV05Q2utVq9ZH7_mLl3WUWBvv4_ON73RkyA1L2U";
+
     public function __construct()
     {
         $this->client =  new Client();
