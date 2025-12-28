@@ -41,7 +41,6 @@ export default function Dashboard({ sheetsData }: MediasProps) {
     
     return (
         <>
-        <Button type="submit" variant="default">Salvar</Button>
         <EditarRegistroModal
                 open={editModalOpen}
                 onClose={handleCloseEdit}
