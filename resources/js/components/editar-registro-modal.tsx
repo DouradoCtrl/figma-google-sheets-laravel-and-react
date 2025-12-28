@@ -27,13 +27,13 @@ export function EditarRegistroModal({ open, onClose, row, headers, categoreData,
 
   // Atualiza cor automaticamente ao mudar categoria
   useEffect(() => {
-    if (form['Categoria'] && categoreData?.original) {
-      const found = categoreData.original.find((item: any[], idx: number) => idx > 0 && item[0] === form['Categoria']);
+    if (form['categoriaMenu'] && categoreData?.original) {
+      const found = categoreData.original.find((item: any[], idx: number) => idx > 0 && item[0] === form['categoriaMenu']);
       if (found) {
         setForm((prev) => ({ ...prev, Cor: found[1] }));
       }
     }
-  }, [form['Categoria'], categoreData]);
+  }, [form['categoriaMenu'], categoreData]);
 
   const handleChange = (key: string, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -61,9 +61,9 @@ export function EditarRegistroModal({ open, onClose, row, headers, categoreData,
                     <label className="text-xs font-medium text-muted-foreground">Categoria</label>
                     <select
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      value={form['Categoria'] ?? ''}
-                      onChange={e => handleChange('Categoria', e.target.value)}
-                      name="Categoria"
+                      value={form['categoriaMenu'] ?? ''}
+                      onChange={e => handleChange('categoriaMenu', e.target.value)}
+                      name="categoriaMenu"
                       required
                     >
                       <option value="">Selecione uma categoria</option>
