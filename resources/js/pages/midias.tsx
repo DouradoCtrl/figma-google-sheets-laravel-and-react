@@ -102,11 +102,29 @@ export default function Dashboard({ sheetsData, categoreData }: MediasProps) {
                         <ConfirmarExclusaoModal
                                 open={deleteModalOpen}
                                 onClose={handleCloseDelete}
-                                onConfirm={() => {
-                                    // Aqui você pode implementar a lógica de exclusão
-                                    // Exemplo: console.log('Excluir registro:', deleteRow);
+                                onConfirm={async () => {
+                                    if (deleteRow) {
+                                        // O índice da linha na tabela corresponde ao índice no sheetsData.original (descontando o cabeçalho)
+                                        const rowIndex = sheetsData.original.findIndex((row) => row === deleteRow);
+                                        if (rowIndex > 0) {
+                                            try {
+                                                const response = await fetch(`/midias/${rowIndex}`, {
+                                                    method: 'DELETE',
+                                                    headers: {
+                                                        'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
+                                                    },
+                                                });
+                                                if (response.ok) {
+                                                    // Atualiza a tabela sem reload completo
+                                                    router.reload({ only: ['sheetsData'] });
+                                                }
+                                            } catch (error) {
+                                                console.error('Erro ao excluir registro:', error);
+                                            }
+                                        }
+                                    }
                                 }}
-                                itemLabel={deleteRow ? deleteRow[1] : undefined} // Exemplo: usa o campo Título
+                                itemLabel={deleteRow ? deleteRow[1] : undefined}
                         />
                         <AppLayout breadcrumbs={breadcrumbs}>
                 <Head title="Mídias" />
