@@ -21,6 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('midias', [ApiGoogleSheetsController::class, 'index'])->name('midias');
     Route::post('midias', [ApiGoogleSheetsController::class, 'store'])->name('midias.store');
     Route::delete('midias/{rowIndex}', [ApiGoogleSheetsController::class, 'destroy'])->name('midias.destroy');
+    Route::put('midias/{rowIndex}', [ApiGoogleSheetsController::class, 'update'])->name('midias.update');
 });
 
 require __DIR__.'/settings.php';
