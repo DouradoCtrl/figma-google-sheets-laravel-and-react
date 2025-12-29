@@ -3,6 +3,7 @@ namespace App\Services;
 
 use Google\Client;
 use Google\Service\Sheets;
+use Google\Service\Sheets\BatchUpdateSpreadsheetRequest;
 
 class ApiGoogleSheetsService
 {
@@ -37,5 +38,38 @@ class ApiGoogleSheetsService
         $params = ['valueInputOption' => 'RAW'];
         
         return $this->service->spreadsheets_values->append($this->spreadsheetId, $range, $body, $params);
+    }
+
+    // buscar o id da aba pelo nome
+    public function getSheetIdByName($sheetName)
+    {
+        $spreadsheet = $this->service->spreadsheets->get($this->spreadsheetId);
+        foreach ($spreadsheet->getSheets() as $sheet) {
+            if ($sheet->getProperties()->getTitle() === $sheetName) {
+                return $sheet->getProperties()->getSheetId();
+            }
+        }
+        return null;
+    }
+
+    // remove uma linha específica da planilha
+    public function deleteRow($sheetName, $rowIndex)
+    {
+        $sheetId = $this->getSheetIdByName($sheetName);
+
+        $requestBody = new BatchUpdateSpreadsheetRequest([
+            'requests' => [
+                'deleteDimension' => [
+                    'range' => [
+                        'sheetId' => $sheetId,
+                        'dimension' => 'ROWS',
+                        'startIndex' => $rowIndex,
+                        'endIndex' => $rowIndex + 1,
+                    ],
+                ],
+            ],
+        ]);
+
+        return $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $requestBody);
     }
 }
