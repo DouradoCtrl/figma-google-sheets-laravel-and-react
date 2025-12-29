@@ -34,7 +34,15 @@ class ApiGoogleSheetsController extends Controller
         ];
         
         $sheetsService->appendRow('Designs', $values);
-        log::info('Appending row to Google Sheets: ' . implode(', ', $values));
+        return response()->noContent();
+    }
+
+    # remove um registro específico do google sheets
+    public function destroy($rowIndex)
+    {
+        $sheetsService = new ApiGoogleSheetsService();
+        $sheetsService->deleteRow('Designs', $rowIndex);
+
         return response()->noContent();
     }
 }
