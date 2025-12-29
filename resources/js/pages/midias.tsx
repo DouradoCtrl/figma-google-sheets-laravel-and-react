@@ -68,6 +68,8 @@ export default function Dashboard({ sheetsData, categoreData }: MediasProps) {
                                 open={editModalOpen}
                                 onClose={handleCloseEdit}
                                 row={editRow ? visibleIndexes.map(i => editRow[i]) : null}
+                                fullRow={editRow}
+                                originalHeaders={sheetsData?.original?.[0] || []}
                                 headers={headers}
                                 categoreData={categoreData}
                                 onSave={async (data) => {

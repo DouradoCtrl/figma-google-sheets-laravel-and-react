@@ -7,12 +7,14 @@ interface EditarRegistroModalProps {
   open: boolean;
   onClose: () => void;
   row: any[] | null;
+  fullRow?: any[] | null;
+  originalHeaders?: string[];
   headers: string[];
   categoreData: any;
   onSave?: (data: Record<string, any>) => void;
 }
 
-export function EditarRegistroModal({ open, onClose, row, headers, categoreData, onSave }: EditarRegistroModalProps) {
+export function EditarRegistroModal({ open, onClose, row, fullRow, originalHeaders, headers, categoreData, onSave }: EditarRegistroModalProps) {
   const [form, setForm] = useState<Record<string, any>>({});
 
   useEffect(() => {
@@ -21,9 +23,18 @@ export function EditarRegistroModal({ open, onClose, row, headers, categoreData,
       headers.forEach((h, i) => {
         initial[h] = row[i] ?? '';
       });
+      
+      // Se temos fullRow e originalHeaders, busca o valor de categoriaMenu
+      if (fullRow && originalHeaders) {
+        const categoriaMenuIndex = originalHeaders.findIndex(h => h === 'CategoriaMenu');
+        if (categoriaMenuIndex !== -1) {
+          initial['categoriaMenu'] = fullRow[categoriaMenuIndex] ?? '';
+        }
+      }
+      
       setForm(initial);
     }
-  }, [row, headers]);
+  }, [row, fullRow, originalHeaders, headers]);
 
   // Atualiza cor automaticamente ao mudar categoria
   useEffect(() => {
