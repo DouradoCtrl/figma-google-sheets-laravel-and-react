@@ -40,10 +40,7 @@ export function AdicionarRegistroModal({ open, onClose, headers, categoreData, o
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('=== HANDLESUBMIT CHAMADO ===');
-    console.log('Form data:', form);
     if (onSave) {
-      console.log('=== CHAMANDO ONSAVE ===');
       onSave(form);
     }
     onClose();
