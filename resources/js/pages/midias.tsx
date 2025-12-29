@@ -80,9 +80,22 @@ export default function Dashboard({ sheetsData, categoreData }: MediasProps) {
                                 onClose={() => setAddModalOpen(false)}
                                 headers={headers}
                                 categoreData={categoreData}
-                                onSave={(data) => {
-                                    // Aqui você pode implementar a lógica de adicionar
-                                    // Exemplo: console.log('Adicionar dados:', data);
+                                onSave={async (data) => {
+                                    console.log('=== DADOS DO FORMULÁRIO ===', data);
+                                    try {
+                                        const response = await fetch('/midias', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
+                                            },
+                                            body: JSON.stringify(data),
+                                        });
+                                        const result = await response.json();
+                                        console.log('Resposta do backend:', result);
+                                    } catch (error) {
+                                        console.error('Erro ao adicionar registro:', error);
+                                    }
                                 }}
                         />
                         <ConfirmarExclusaoModal
