@@ -45,4 +45,22 @@ class ApiGoogleSheetsController extends Controller
 
         return response()->noContent();
     }
+
+    # atualiza um registro específico do google sheets
+    public function update(Request $request, $rowIndex)
+    {
+        log::info("Update request received for row index: " . $rowIndex, $request->all());
+        $sheetsService = new ApiGoogleSheetsService();
+        $values = [
+            $request->input('Fundo'),
+            $request->input('Texto'),
+            $request->input('Título'),
+            $request->input('categoriaMenu'),
+        ];
+        // Atualiza a linha inteira de uma vez
+        $sheetsService->updateRow('Designs', $rowIndex, $values);
+
+        return response()->noContent();
+
+    }
 }
