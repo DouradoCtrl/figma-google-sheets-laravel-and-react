@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\ApiGoogleSheetsService;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class ApiGoogleSheetsController extends Controller
 {
@@ -21,9 +22,19 @@ class ApiGoogleSheetsController extends Controller
         ]);
     }
 
-    # linha específica do google sheets
-    public function show($id)
-    {
-        //
+    # adiciona um novo registro ao google sheets
+    public function store(Request $request)
+    {  
+        $sheetsService = new ApiGoogleSheetsService();
+        $values = [
+            $request->input('Fundo'),
+            $request->input('Texto'),
+            $request->input('Título'),
+            $request->input('categoriaMenu'),
+        ];
+        
+        $sheetsService->appendRow('Designs', $values);
+        log::info('Appending row to Google Sheets: ' . implode(', ', $values));
+        return response()->noContent();
     }
 }
