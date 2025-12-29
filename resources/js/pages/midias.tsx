@@ -91,11 +91,10 @@ export default function Dashboard({ sheetsData, categoreData }: MediasProps) {
                                             body: JSON.stringify(data),
                                         });
                                         if (response.ok) {
-                                            console.log('✅ Registro adicionado com sucesso!');
                                             router.reload({ only: ['sheetsData'] });
                                         }
                                     } catch (error) {
-                                        console.error('❌ Erro:', error);
+                                        console.error('❌ Erro ao incluir registro:', error);
                                     }
                                 }}
                         />
