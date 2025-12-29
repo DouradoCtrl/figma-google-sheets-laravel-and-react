@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('midias', [ApiGoogleSheetsController::class, 'index'])->name('midias');
     Route::post('midias', [ApiGoogleSheetsController::class, 'store'])->name('midias.store');
+    Route::delete('midias/{rowIndex}', [ApiGoogleSheetsController::class, 'destroy'])->name('midias.destroy');
 });
 
 require __DIR__.'/settings.php';
