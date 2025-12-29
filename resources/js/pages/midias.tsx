@@ -70,9 +70,25 @@ export default function Dashboard({ sheetsData, categoreData }: MediasProps) {
                                 row={editRow ? visibleIndexes.map(i => editRow[i]) : null}
                                 headers={headers}
                                 categoreData={categoreData}
-                                onSave={(data) => {
-                                    // Aqui você pode implementar a lógica de salvar/atualizar
-                                    // Exemplo: console.log('Salvar dados:', data);
+                                onSave={async (data) => {
+                                    try {
+                                        const rowIndex = sheetsData.original.findIndex((row) => row === editRow);
+                                        if (rowIndex > 0) {
+                                            const response = await fetch(`/midias/${rowIndex}`, {
+                                                method: 'PUT',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
+                                                },
+                                                body: JSON.stringify(data),
+                                            });
+                                            if (response.ok) {
+                                                router.reload({ only: ['sheetsData'] });
+                                            }
+                                        }
+                                    } catch (error) {
+                                        console.error('❌ Erro ao editar registro:', error);
+                                    }
                                 }}
                         />
                         <AdicionarRegistroModal
