@@ -7,7 +7,7 @@ import { AdicionarRegistroModal } from '@/components/adicionar-registro-modal';
 import { ConfirmarExclusaoModal } from '@/components/confirmar-exclusao-modal';
 import { midias } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -90,10 +90,9 @@ export default function Dashboard({ sheetsData, categoreData }: MediasProps) {
                                             },
                                             body: JSON.stringify(data),
                                         });
-                                        
                                         if (response.ok) {
                                             console.log('✅ Registro adicionado com sucesso!');
-                                            // Aqui você pode recarregar a página ou atualizar a tabela
+                                            router.reload({ only: ['sheetsData'] });
                                         }
                                     } catch (error) {
                                         console.error('❌ Erro:', error);
