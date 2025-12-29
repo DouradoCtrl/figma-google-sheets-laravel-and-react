@@ -81,7 +81,6 @@ export default function Dashboard({ sheetsData, categoreData }: MediasProps) {
                                 headers={headers}
                                 categoreData={categoreData}
                                 onSave={async (data) => {
-                                    console.log('=== DADOS DO FORMULÁRIO ===', data);
                                     try {
                                         const response = await fetch('/midias', {
                                             method: 'POST',
@@ -91,10 +90,13 @@ export default function Dashboard({ sheetsData, categoreData }: MediasProps) {
                                             },
                                             body: JSON.stringify(data),
                                         });
-                                        const result = await response.json();
-                                        console.log('Resposta do backend:', result);
+                                        
+                                        if (response.ok) {
+                                            console.log('✅ Registro adicionado com sucesso!');
+                                            // Aqui você pode recarregar a página ou atualizar a tabela
+                                        }
                                     } catch (error) {
-                                        console.error('Erro ao adicionar registro:', error);
+                                        console.error('❌ Erro:', error);
                                     }
                                 }}
                         />
