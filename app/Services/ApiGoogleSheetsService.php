@@ -4,6 +4,8 @@ namespace App\Services;
 use Google\Client;
 use Google\Service\Sheets;
 use Google\Service\Sheets\BatchUpdateSpreadsheetRequest;
+ use Google\Service\Sheets\ValueRange;
+use Illuminate\Support\Facades\Log;
 
 class ApiGoogleSheetsService
 {
@@ -32,7 +34,7 @@ class ApiGoogleSheetsService
     // Adiciona uma nova linha à planilha (final)
     public function appendRow($range, $values)
     {
-        $body = new Sheets\ValueRange([
+        $body = new ValueRange([
             'values' => [$values]
         ]);
         $params = ['valueInputOption' => 'RAW'];
@@ -71,5 +73,22 @@ class ApiGoogleSheetsService
         ]);
 
         return $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $requestBody);
+    }
+
+    # Atualiza um bloco de células na planilha
+    public function updateRow($sheetName, $rowIndex, $values)
+    {
+        // Calcula a última coluna baseado na quantidade de valores
+        $colCount = count($values);
+        $endCol = chr(ord('A') + $colCount - 1); // A=0, B=1, C=2, D=3
+        $rowNumber = $rowIndex + 1; // Google Sheets é 1-indexed
+        $range = $sheetName . '!' . 'A' . $rowNumber . ':' . $endCol . $rowNumber;
+        
+        $body = new ValueRange([
+            'values' => [$values]
+        ]);
+        $params = ['valueInputOption' => 'RAW'];
+
+        return $this->service->spreadsheets_values->update($this->spreadsheetId, $range, $body, $params);
     }
 }
